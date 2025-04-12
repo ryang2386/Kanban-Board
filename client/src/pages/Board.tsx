@@ -67,9 +67,6 @@ const Board = () => {
         </div>  
       ) : (
           <div className='board'>
-            {/* <button type='button' id='create-ticket-link'>
-              <Link to='/create' >New Ticket</Link>
-            </button> */}
             <div className='board-display'>
               {boardStates.map((status) => {
                 const filteredTickets = tickets.filter(ticket => ticket.status === status);
