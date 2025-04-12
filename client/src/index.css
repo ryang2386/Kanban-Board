@@ -32,7 +32,7 @@ a:hover {
 }
 
 body {
-  background: #ECF0F1;
+  background: linear-gradient(to right, #e4b7ea, #732381);
   background-size: cover;
   background-repeat: no-repeat no-repeat;
   background-position: center center;
@@ -57,6 +57,7 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+  margin: 5px;
 }
 button:hover {
   border-color: #646cff;
@@ -87,12 +88,13 @@ tbody tr:nth-child(odd) {
 /* Navbar Content */
 .nav {
   display: flex;
+  justify-content: space-between;
   padding: 1em 2em;
 }
 
 .nav ul {
   display: flex;
-  margin-left: auto;
+  margin-left: 0;
   flex-direction: row;
 }
 
@@ -105,11 +107,12 @@ tbody tr:nth-child(odd) {
 }
 
 .nav-title a {
-  color: #b864c4;
+  color: #bd11d6;
+  font-weight: bold;
 }
 
 .nav-item {
-  display: block;
+  display: flex;
   margin-left: auto;
   list-style: none;
 }
@@ -170,7 +173,7 @@ tbody tr:nth-child(odd) {
 
 .container {
   /* margin: auto; */
-  width: 100%;
+  width: 1400px;
   /* height: 90%; */
 }
 
