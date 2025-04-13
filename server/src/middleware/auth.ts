@@ -12,6 +12,7 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
   if (authHeader) {
     const token = authHeader.split(' ')[1];
     const secretKey = process.env.JWT_SECRET_KEY || '';
+    // verification of the token
     jwt.verify(token, secretKey, (err, user) => {
       if (err) {
         return res.sendStatus(403); 
