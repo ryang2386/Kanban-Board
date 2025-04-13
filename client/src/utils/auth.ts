@@ -17,8 +17,47 @@ class AuthService {
   isTokenExpired(token: string) {
     // TODO: return a value that indicates if the token is expired
     const decoded = jwtDecode<JwtPayload>(token);
-    const currentTime = Date.now() / 1000; // Convert to seconds
-    return decoded.exp ? decoded.exp < currentTime : false;
+
+    if (decoded.exp && decoded.exp < Math.floor(Date.now() / 1000)) {
+      return true;
+    }
+
+    const lastAction = parseInt(localStorage.getItem('lastAction') || '0', 10);
+    const currentTime = Math.floor(Date.now() / 1000);
+    const expTime = 5 * 60;
+    const updatedExpTime = parseInt(localStorage.getItem('expTime') || '0', 10);
+    const updatedTime = (currentTime - lastAction) + updatedExpTime;
+    console.log('updatedTime', updatedExpTime);
+    
+    if (updatedExpTime > expTime) {
+      return true;
+    }
+
+    localStorage.setItem('expTime', updatedTime.toString());
+    localStorage.setItem('lastAction', currentTime.toString());
+    return false;
+    // console.log('currentTime', expTime);
+    // console.log('decoded.exp', decoded.exp);
+    // return decoded.exp ? decoded.exp < expTime : false;
+  }
+
+  redirectIfTokenExpired() {
+    const token = this.getToken();
+    if (!token || this.isTokenExpired(token)) {
+      localStorage.removeItem('id_token');
+      window.location.assign('/login');
+    }
+  }
+
+  activityChecker () {
+    const checkActivity = () => {
+      const currentTime = Math.floor(Date.now() / 1000);
+      localStorage.setItem('lastAction', currentTime.toString());
+      localStorage.setItem('expTime', '0');
+    };
+
+    window.addEventListener('mousemove', checkActivity);
+    window.addEventListener('keydown', checkActivity);
   }
 
   getToken(): string {
@@ -30,6 +69,7 @@ class AuthService {
   login(idToken: string) {
     // TODO: set the token to localStorage
     localStorage.setItem('id_token', idToken);
+    localStorage.setItem('expTime', '0');
     // TODO: redirect to the home page
     window.location.assign('/');
   }
